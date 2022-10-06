@@ -4,4 +4,4 @@ if not status_ok then
   return
 end
 
-nightfox.setup()
+--nightfox.setup()
