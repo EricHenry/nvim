@@ -48,8 +48,17 @@ M.get_filename = function()
       file_icon_color = ""
     end
 
-    local navic_text = vim.api.nvim_get_hl_by_name("NavicText", true)
-    vim.api.nvim_set_hl(0, "Winbar", { fg = navic_text.foreground })
+    local navic_text_ok, navic_text = pcall(vim.api.nvim_get_hl_by_name, "NavicText", true)
+    if navic_text_ok then
+      vim.api.nvim_set_hl(0, "Winbar", { fg = navic_text.foreground })
+    else
+      -- For now, if there isn't a set NavicText forground highlight group then use the @variable highlight group
+      local variable_color_ok, variable_color = pcall(vim.api.nvim_get_hl_by_name, "@variable", true)
+      if variable_color_ok then
+        -- for some reason the color for the @variable hl group is in a lua table who's key is 'true'
+        vim.api.nvim_set_hl(0, "Winbar", { fg = variable_color[true] })
+      end
+    end
 
     return " " .. "%#" .. hl_group .. "#" .. file_icon .. "%*" .. " " .. "%#Winbar#" .. filename .. "%*"
   end
