@@ -8,7 +8,7 @@ end
 npairs.setup {
   check_ts = true,
   ts_config = {
-    elm = { "function" },
+    elm = { "function", "field" },
     lua = { "string", "source" },
     javascript = { "string", "template_string" },
     java = false,
